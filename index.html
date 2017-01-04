@@ -1,0 +1,146 @@
+<!doctype html>
+<html style="width:600px;height:400px;">
+  <head>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.tmpl.js"></script>
+    <script src="js/jquery.ui.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/backbone.js"></script>
+    <script src="js/main.js"></script>
+
+</head>
+<body>
+
+      <div class="container">
+        <h1>Калькулятор расчета зарплаты на текущий месяц</h1>
+        <div id="for_form"></div>
+        <div class="row col-sm-12" id="list_project_render"></div>
+        <div class="row col-sm-12" id="list_gonorar_render"></div>
+    </div>
+
+
+
+    <script id="form_add" type="text/x-jquery-tmpl">
+
+      <div class="row col-sm-12">
+        <h2>Добавить проект</h2>
+        <div class="col-sm-6">
+          <h3>Проект</h3>
+          <div class="form-horizontal">
+            <div class="form-group">
+                <label for="title" class="control-label col-sm-6">Название</label>
+                <div class="col-sm-6">
+                    <input id="title" type="text" value="${title}">
+                    <span id="title_error" class="error"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="summ" class="control-label col-sm-6">Гонорар</label>
+                <div class="col-sm-6">
+                    <input id="summ" type="text" value="${summ}">
+                    <span id="summ_error" class="error"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="startline" class="control-label col-sm-6">Начать</label>
+                <div class="col-sm-6">
+                    <input id="startline" type="date" value="${startline}">
+                    <span id="startline_error" class="error"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="stopline" class="control-label col-sm-6">Закончить</label>
+                <div class="col-sm-6">
+                    <input id="stopline" type="date" value="${stopline}">
+                    <span id="stopline_error" class="error"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="stop" class="control-label col-sm-6">Закончено</label>
+                <div class="col-sm-6">
+                    <input id="stop" type="date" value="${stop}">
+                    <span id="stop_error" class="error"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="argh" class="control-label col-sm-6">Среднее кол-во часов за месяц</label>
+                <div class="col-sm-6">
+                    <input id="argh" type="text" value="${argh}">
+                    <span id="argh_error" class="error"></span>
+                </div>
+            </div>
+            <button type="button" class="btn btn-default" id="add_project">Сохранить</button>
+          </div>
+        </div>
+      </div>
+
+  </script>
+
+
+  <script id="list_projects" type="text/x-jquery-tmpl">
+    <h2>Проекты</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Название</th>
+                <th>Гонорар</th>
+                <th>Начать</th>
+                <th>Закончить</th>
+                <th>Закончено</th>
+                <th>Среднее кол-во часов за месяц</th>
+            </tr>
+        </thead>
+        <tbody>
+          {%each rows%}
+            <tr id="project_${id}">
+              <td class="glyphicon glyphicon-remove"></td>
+              <td class="glyphicon glyphicon-edit"></td>
+              <td>${title}</td>
+              <td>${summ}</td>
+              <td>${startline}</td>
+              <td>${stopline}</td>
+              <td>${stop}</td>
+              <td>${argh}</td>
+            </tr>
+          {%/each%}
+        </tbody>
+    </table>
+  </script>
+
+  <script id="list_gonorar" type="text/x-jquery-tmpl">
+    <h2>Зарплаты</h2>
+    <table class="table">
+        <thead>
+            <tr>
+              <th>Название</th>
+              {%each cols%}
+                  <th>${month}</th>
+              {%/each%}
+            </tr>
+        </thead>
+        <tbody>
+          {%each(_i,_v) projects%}
+            <tr>
+              <td>${_v.title}</td>
+              {%each(i,v) cols%}
+                  <td>${rows[_i][i].summ}</td>
+              {%/each%}
+            </tr>
+          {%/each%}
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>Итого</th>
+            {%each(i,v) cols%}
+                <th>${main_summ[i]}</th>
+            {%/each%}
+          </tr>
+        </tfoot>
+    </table>
+  </script>
+
+</body>
