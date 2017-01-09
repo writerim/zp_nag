@@ -154,11 +154,14 @@ var ListGonorar = Backbone.View.extend({
           str_project.push({
             summ : function(){
 
-              if( monthDiff( dateToDateStr( d ) , item.get('stop') , true ) == 0 ){
+              if( item.get('stop') <= item.get('stopline') ){
                 var d1 = monthDiff( item.get('stopline') , item.get('stop') , true );
                 var ost = item.get('ost')
                 item.set('ost',0,{silent : true})
                 return ost
+              }else if( item.get('stop') > item.get('stopline') ){
+                item.set('ost' , ( ost - hourMoney * item.get('argh') ) , {silent : true})
+                return hourMoney * item.get('argh');
               }else{
                 // Если денег на проект выделено меньше чем почасовка то выдавать все
                 var ost = item.get('ost')
